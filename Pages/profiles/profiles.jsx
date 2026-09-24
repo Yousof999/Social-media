@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import "./profiles.css";
 
 const profiles = [
@@ -156,8 +157,7 @@ export default function ProfilesPage({ searchTerm = "" }) {
             </div>
 
             <div className="profile-detail__cta">
-              <button type="button" className="btn btn--red">Hire {activeProfile.name.split(" ")[0]}</button>
-              <button type="button" className="btn btn--ghost">Message</button>
+              <Link to="/messages" className="btn btn--ghost">Message</Link>
             </div>
           </div>
         </aside>

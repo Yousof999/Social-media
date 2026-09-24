@@ -95,13 +95,13 @@ export default function PostProjectPage() {
             </label>
 
             <label>
-              <span>Budget</span>
+              <span>Price</span>
               <input
                 type="number"
                 name="budget"
                 value={formData.budget}
                 onChange={handleChange}
-                placeholder="$1,500 - $3,000"
+                placeholder="$1500"
                 required
               />
             </label>

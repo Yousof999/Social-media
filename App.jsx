@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { Link, NavLink, Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import CompaniesPage from "./Pages/companies/companies.jsx";
 import ProfilesPage from "./Pages/profiles/profiles.jsx";

@@ -153,3 +153,12 @@
     align-items: stretch;
   }
 }
+
+@media (max-width: 480px) {
+  .jobs-page { margin: 16px auto; padding-inline: 12px; }
+  .page-header { align-items: stretch; flex-direction: column; }
+  .job-create-btn,
+  .job-actions .btn { justify-content: center; width: 100%; }
+  .job-card { padding: 14px; }
+  .job-header h3 { font-size: 1.2rem; overflow-wrap: anywhere; }
+}

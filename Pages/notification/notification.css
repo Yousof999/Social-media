@@ -58,3 +58,9 @@
   margin: 0;
   line-height: 1.5;
 }
+
+@media (max-width: 480px) {
+  .notification-page { margin: 16px auto; padding-inline: 12px; }
+  .notification-item { padding: 14px; }
+  .notification-top { align-items: flex-start; flex-direction: column; gap: 4px; }
+}

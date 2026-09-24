@@ -205,3 +205,12 @@
     flex: 1;
   }
 }
+
+@media (max-width: 480px) {
+  .applying-page { margin: 16px auto; padding-inline: 12px; }
+  .applying-sidebar,
+  .applying-main { padding: 14px; }
+  .section-head h2 { font-size: 23px; }
+  .info-list li { align-items: flex-start; flex-direction: column; gap: 4px; }
+  .form-actions .btn { width: 100%; }
+}

@@ -159,3 +159,12 @@
     border-bottom: 1px solid var(--line);
   }
 }
+
+@media (max-width: 480px) {
+  .messages-page { margin: 16px auto; padding-inline: 12px; }
+  .chat-header,
+  .chat-thread { padding-inline: 14px; }
+  .chat-input-row { padding: 12px 14px 14px; }
+  .chat-input-row .btn { padding-inline: 12px; }
+  .bubble { max-width: 88%; }
+}

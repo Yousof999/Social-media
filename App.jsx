@@ -52,14 +52,28 @@ const Avatar = ({ name, size = 40 }) => (
   </span>
 );
 
-function Navbar({ searchTerm, setSearchTerm, userName }) {
+function Navbar({ userName }) {
+  const [menuOpen, setMenuOpen] = useState(false);
+
   return (
     <nav className="navbar">
       <div className="navbar__inner">
         <Link to="/home" className="logo">W</Link>
-        <div className="nav-links">
+        <button
+          type="button"
+          className="nav-toggle"
+          aria-expanded={menuOpen}
+          aria-controls="primary-navigation"
+          aria-label={menuOpen ? "Close navigation menu" : "Open navigation menu"}
+          onClick={() => setMenuOpen((open) => !open)}
+        >
+          <span />
+          <span />
+          <span />
+        </button>
+        <div id="primary-navigation" className={`nav-links${menuOpen ? " nav-links--open" : ""}`}>
           {navLinks.map(({ label, path }) => (
-            <NavLink key={label} to={path} className={({ isActive }) => (isActive ? "active" : "") }>{label}</NavLink>
+            <NavLink key={label} to={path} onClick={() => setMenuOpen(false)} className={({ isActive }) => (isActive ? "active" : "") }>{label}</NavLink>
           ))}
         </div>
         <div className="nav-user"><Avatar name={userName} size={28} /> {userName}</div>
@@ -178,7 +192,7 @@ export default function App() {
 
   return (
     <>
-      {!isAuthPage && <Navbar searchTerm={searchTerm} setSearchTerm={setSearchTerm} userName={userName} />}
+      {!isAuthPage && <Navbar userName={userName} />}
       <Routes>
         <Route path="/" element={<SignInPage onSignedIn={setUserName} />} />
         <Route path="/sign-up" element={<SignUpPage />} />

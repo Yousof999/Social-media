@@ -131,3 +131,11 @@
     align-items: stretch;
   }
 }
+
+@media (max-width: 480px) {
+  .project-page { margin: 16px auto; padding-inline: 12px; }
+  .project-card { padding: 14px; }
+  .project-head h3 { font-size: 1.2rem; overflow-wrap: anywhere; }
+  .project-actions .btn,
+  .project-actions .job-create-btn { justify-content: center; width: 100%; }
+}

@@ -325,3 +325,11 @@
     grid-template-columns: 1fr;
   }
 }
+
+@media (max-width: 480px) {
+  .companies-page { margin: 16px auto; padding-inline: 12px; }
+  .company-toolbar { padding: 10px; }
+  .company-card { padding: 14px; }
+  .company-topline h3 { font-size: 1.15rem; overflow-wrap: anywhere; }
+  .company-footer { align-items: stretch; }
+}

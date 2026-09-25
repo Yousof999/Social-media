@@ -1,5 +1,5 @@
-import { useLocation } from "react-router-dom";
-import React, { useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import React, { useRef, useState } from "react";
 import "./applying.css";
 
 const defaultApplicationSummary = {
@@ -11,6 +11,8 @@ const defaultApplicationSummary = {
 
 export default function ApplyingPage() {
   const location = useLocation();
+  const navigate = useNavigate();
+  const fileInputRef = useRef(null);
   const selectedJob = location.state?.job ?? defaultApplicationSummary;
   const applicationSummary = {
     role: selectedJob.title ?? selectedJob.role ?? defaultApplicationSummary.role,
@@ -28,16 +30,44 @@ export default function ApplyingPage() {
     resume: "resume.pdf",
   });
 
-  const [submitted, setSubmitted] = useState(false);
+  const [uploadError, setUploadError] = useState("");
 
   const handleChange = (event) => {
     const { name, value } = event.target;
     setForm((current) => ({ ...current, [name]: value }));
   };
 
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const fileExtension = file.name.slice(file.name.lastIndexOf(".")).toLowerCase();
+    if (![".pdf", ".doc", ".docx"].includes(fileExtension)) {
+      setUploadError("Please upload a PDF, DOC, or DOCX file.");
+      event.target.value = "";
+      return;
+    }
+
+    setUploadError("");
+    setForm((current) => ({ ...current, resume: file.name }));
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    setSubmitted(true);
+    const storedApplications = JSON.parse(localStorage.getItem("jobApplications") || "[]");
+    const application = {
+      jobTitle: applicationSummary.role,
+      company: applicationSummary.company,
+      ...form,
+    };
+    const alreadyApplied = storedApplications.some(
+      (item) => item.jobTitle === application.jobTitle && item.company === application.company
+    );
+
+    if (!alreadyApplied) {
+      localStorage.setItem("jobApplications", JSON.stringify([...storedApplications, application]));
+    }
+    navigate("/jobs");
   };
 
   return (
@@ -74,7 +104,6 @@ export default function ApplyingPage() {
               <p className="eyebrow">Submit your profile</p>
               <h2>Apply for this position</h2>
             </div>
-            <button type="button" className="btn btn--ghost">Save draft</button>
           </div>
 
           <form className="application-form" onSubmit={handleSubmit}>
@@ -108,21 +137,28 @@ export default function ApplyingPage() {
             <div className="upload-row">
               <label>
                 Resume
-                <input type="text" name="resume" value={form.resume} onChange={handleChange} />
+                <input
+                  ref={fileInputRef}
+                  className="file-input-hidden"
+                  type="file"
+                  name="resume"
+                  accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                  onChange={handleFileChange}
+                />
+                <span className="file-name">{form.resume}</span>
               </label>
-              <button type="button" className="btn btn--ghost upload-btn">Upload file</button>
+              <button type="button" className="btn btn--ghost upload-btn" onClick={() => fileInputRef.current?.click()}>
+                Upload file
+              </button>
             </div>
 
+            {uploadError && <div className="upload-error">{uploadError}</div>}
+
             <div className="form-actions">
-              <button type="button" className="btn btn--ghost">Cancel</button>
+              <button type="button" className="btn btn--ghost" onClick={() => navigate("/jobs")}>Cancel</button>
               <button type="submit" className="btn btn--red">Submit application</button>
             </div>
 
-            {submitted && (
-              <div className="success-message">
-                Application submitted successfully. The hiring team will review your profile soon.
-              </div>
-            )}
           </form>
         </main>
       </div>

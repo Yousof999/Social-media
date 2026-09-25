@@ -48,9 +48,20 @@ const getStoredJobs = () => {
   }
 };
 
+const getAppliedJobs = () => {
+  if (typeof window === "undefined") return [];
+
+  try {
+    return JSON.parse(localStorage.getItem("jobApplications") || "[]");
+  } catch {
+    return [];
+  }
+};
+
 export default function JobsPage({ searchTerm = "" }) {
   const navigate = useNavigate();
   const [jobs, setJobs] = useState(getStoredJobs);
+  const [appliedJobs] = useState(getAppliedJobs);
   const normalizedSearch = searchTerm.trim().toLowerCase();
 
   const visibleJobs = jobs.filter((job) => {
@@ -74,9 +85,14 @@ export default function JobsPage({ searchTerm = "" }) {
       </header>
 
       <div className="jobs-list">
-        {visibleJobs.length ? visibleJobs.map((job) => (
-          <article key={job.title} className="job-card">
-            <div className={`job-badge ${job.accent}`}>{job.type}</div>
+        {visibleJobs.length ? visibleJobs.map((job) => {
+          const isApplied = appliedJobs.some(
+            (application) => application.jobTitle === job.title && application.company === job.company
+          );
+
+          return (
+            <article key={job.title} className="job-card">
+              <div className={`job-badge ${job.accent}`}>{job.type}</div>
             <div className="job-header">
               <div>
                 <h3>{job.title}</h3>
@@ -98,16 +114,19 @@ export default function JobsPage({ searchTerm = "" }) {
             </div>
 
             <div className="job-actions">
-              <button
-                type="button"
-                className="btn btn--red"
-                onClick={() => navigate("/applying", { state: { job } })}
-              >
-                Apply
-              </button>
+              {isApplied ? <strong className="applied-label">Applied</strong> : (
+                <button
+                  type="button"
+                  className="btn btn--red"
+                  onClick={() => navigate("/applying", { state: { job } })}
+                >
+                  Apply
+                </button>
+              )}
             </div>
-          </article>
-        )) : <p className="muted empty-state">No matching jobs found.</p>}
+            </article>
+          );
+        }) : <p className="muted empty-state">No matching jobs found.</p>}
       </div>
     </div>
   );

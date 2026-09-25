@@ -165,6 +165,20 @@
   white-space: nowrap;
 }
 
+.file-input-hidden {
+  display: none;
+}
+
+.file-name {
+  display: block;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 12px 14px;
+  color: var(--muted);
+  background: #fff;
+  font-weight: 400;
+}
+
 .form-actions {
   display: flex;
   justify-content: flex-end;
@@ -178,6 +192,12 @@
   color: #1e7d4f;
   border-radius: 8px;
   padding: 12px 14px;
+  font-weight: 600;
+}
+
+.upload-error {
+  color: var(--red);
+  font-size: 12px;
   font-weight: 600;
 }
 

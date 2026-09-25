@@ -140,6 +140,11 @@
   gap: 10px;
 }
 
+.applied-label {
+  color: #1e8e57;
+  padding: 10px 16px;
+}
+
 .delete-job-btn {
   background: #fff5f3;
   color: var(--red);
